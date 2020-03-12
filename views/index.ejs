@@ -1,0 +1,7 @@
+<%- include('../views/partials/header'); -%>
+<ul>
+  <% todos.forEach(function(todo){ %>
+    <li><%= todo.task %> - <%= todo.date %></li>
+  <% }) %>
+</ul>
+<%- include('../views/partials/footer'); -%>
