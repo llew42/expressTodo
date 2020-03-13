@@ -3,8 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const port = 3000;
 const app = express();
+// require('bootstrap');
 
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const assert = require('assert');
 
 // connection url
@@ -43,5 +45,62 @@ app.get('/', (req, res, next) => {
     }
     console.log(todos);
     res.render('index', {todos: todos});
+  })
+});
+
+app.post('/todo/add', (req, res, next) => {
+  // CREATE TODO
+  const todo = {
+    task: req.body.todo,
+    date: req.body.date
+  };
+
+  // INSERT TODO
+  Todos.insertOne(todo, (err, result) => {
+    if (err) {
+      throw err;
+      console.log(err);
+    }
+    console.log('Todo Added');
+    res.redirect('/');
+  })
+});
+
+app.delete('/todo/delete/:id', (req, res, next) => {
+  const query = {_id: ObjectId(req.params.id)};
+  Todos.deleteOne(query, (err, response) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log('Todo removed');
+    res.send(200);
+  })
+});
+
+app.get('/todo/edit/:id', (req, res, next) => {
+  const query = {_id: ObjectId(req.params.id)};
+  Todos.find(query).next((err, todo) => {
+    if (err) {
+      throw err
+      console.log(err);
+    }
+    res.render('edit', { todo: todo });
+  })
+});
+
+app.post('/todo/edit/:id', (req, res, next) => {
+  const query = {_id: ObjectId(req.params.id)};
+  const todo = {
+    task: req.body.todo,
+    date: req.body.date
+  };
+
+  Todos.updateOne(query, {$set: todo}, (err, result) => {
+    if (err) {
+      throw err;
+      console.log(err);
+    }
+    console.log('Todo Updated');
+    res.redirect('/');
   })
 });

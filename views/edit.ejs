@@ -1,0 +1,14 @@
+<%- include('../views/partials/header'); -%>
+<form class="" action="/todo/edit/<%= todo._id %>" method="post">
+  <div class="">
+    <label for="name">Todo Name</label>
+    <input type="text" name="todo" value="<%= todo.task %>" placeholder="New todo">
+  </div>
+  <div class="">
+    <label for="date">Todo Date</label>
+    <input type="date" name="date" value="<%= todo.date %>" placeholder="Date">
+  </div>
+  <button type="submit" name="button">Update Todo</button>
+  <a href="/">Cancel</a>
+</form>
+<%- include('../views/partials/footer'); -%>

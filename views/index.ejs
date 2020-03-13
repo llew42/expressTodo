@@ -1,7 +1,21 @@
 <%- include('../views/partials/header'); -%>
+<form class="" action="/todo/add" method="post">
+  <div class="">
+    <label for="name">Todo Name</label>
+    <input type="text" name="todo" placeholder="New Todo">
+  </div>
+  <div class="">
+    <label for="date">Todo Date</label>
+    <input type="date" name="date" value="date" placeholder="Date">
+  </div>
+  <button type="submit" name="button">Add Todo</button>
+</form>
 <ul>
   <% todos.forEach(function(todo){ %>
-    <li><%= todo.task %> - <%= todo.date %></li>
+    <li><%= todo.task %> - <%= todo.date %>
+      <a data-id="<%= todo._id %>" href="#" class="delete-todo">Delete</a>
+      <a href="/todo/edit/<%= todo._id %>">Edit</a>
+    </li>
   <% }) %>
 </ul>
 <%- include('../views/partials/footer'); -%>
